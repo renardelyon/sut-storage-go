@@ -1,6 +1,6 @@
 package model
 
 type File struct {
-	Id     string
+	Id     string `gorm:"primaryKey"`
 	UserId string
 }
