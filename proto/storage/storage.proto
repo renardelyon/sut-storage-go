@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package storage;
+
+option go_package = "sut-storage-go/proto";
+
+message FileInfo {
+    string userId = 1;
+    string filename = 2;
+}
+
+message UploadRequest {
+    oneof data {
+        FileInfo info = 1;
+        bytes chunk_data = 2;
+    }
+}
+
+message UploadResponse {
+    string id = 1;
+}
+
+
