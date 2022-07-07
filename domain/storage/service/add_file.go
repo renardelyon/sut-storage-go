@@ -2,7 +2,6 @@ package service
 
 import (
 	"bytes"
-	"context"
 	"fmt"
 	"log"
 	"sut-storage-go/lib/helper"
@@ -12,7 +11,8 @@ import (
 	"google.golang.org/api/googleapi"
 )
 
-func (s *Service) AddFile(ctx context.Context, stream storagepb.StorageService_AddFileServer) error {
+func (s *Service) AddFile(stream storagepb.StorageService_AddFileServer) error {
+	ctx := stream.Context()
 	select {
 	case <-ctx.Done():
 		return helper.ContextError(ctx)
@@ -56,7 +56,13 @@ func (s *Service) AddFile(ctx context.Context, stream storagepb.StorageService_A
 		log.Fatalln("error when upload file: ", err)
 	}
 
-	// fileId := res.Id
-	log.Println(res.Id)
+	err = stream.SendAndClose(&storagepb.UploadResponse{
+		Id: res.Id,
+	})
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
 	return nil
 }

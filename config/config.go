@@ -8,7 +8,7 @@ import (
 
 type Config struct {
 	Port           string `mapstructure:"PORT"`
-	DB             string `mapstructure:"DB"`
+	DBUrl          string `mapstructure:"DB_URL"`
 	ServiceAccount string `mapstructure:"SERVICE_ACCOUNT_PATH"`
 	BucketName     string `mapstructure:"BUCKET_NAME"`
 	TokenPath      string `mapstructure:"TOKEN_PATH"`
