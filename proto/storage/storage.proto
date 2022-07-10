@@ -20,4 +20,11 @@ message UploadResponse {
     string id = 1;
 }
 
+message GetFileByUserIdRequest {
+    string userId = 1;
+}
+
+message  GetFileByUserIdResponse {
+    bytes chunk_data = 1;
+}
 

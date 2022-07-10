@@ -8,4 +8,5 @@ import "storage/storage.proto";
 
 service StorageService {
     rpc AddFile(stream UploadRequest) returns (UploadResponse) {} 
+    rpc GetFileByUserId(GetFileByUserIdRequest) returns (stream GetFileByUserIdResponse) {}
 }
