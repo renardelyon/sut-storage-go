@@ -46,3 +46,17 @@ func (s *Service) ReceiveStreamFile(ctx context.Context, stream storagepb.Storag
 
 	return fileData.Bytes(), nil
 }
+
+func (s *Service) DeleteFile(ctx context.Context, fileId string) error {
+	select {
+	case <-ctx.Done():
+		return helper.ContextError(ctx)
+	default:
+	}
+
+	err := s.driveSrv.Children.Delete(s.conf.FolderId, fileId).Do()
+	if err != nil {
+		return err
+	}
+	return nil
+}
