@@ -4,7 +4,7 @@ import (
 	"sut-storage-go/config"
 	"sut-storage-go/lib/pkg/db"
 
-	"google.golang.org/api/drive/v3"
+	"google.golang.org/api/drive/v2"
 )
 
 type Service struct {

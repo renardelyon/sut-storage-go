@@ -4,7 +4,7 @@ import (
 	"context"
 	"sut-storage-go/lib/pkg/db"
 
-	"google.golang.org/api/drive/v3"
+	"google.golang.org/api/drive/v2"
 	"google.golang.org/grpc"
 )
 
