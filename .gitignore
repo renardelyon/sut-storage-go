@@ -7,6 +7,7 @@
 
 /pb
 dev.env
+token.json
 
 .vscode
 .DS_Store

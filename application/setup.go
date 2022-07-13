@@ -64,15 +64,6 @@ func initGrpcClient(cfg *config.Config) func(*Application) error {
 	return func(app *Application) error {
 		app.GrpcClients = make(map[string]*grpc.ClientConn)
 
-		// ProductServiceCfg := cfg.ProductHost
-		// conn, err := setupGrpcConnection(ProductServiceCfg)
-		// if err != nil {
-		// 	return err
-		// }
-
-		// app.GrpcClients["product-management-service"] = conn
-		// log.Println("product-management-service" + " connected on " + ProductServiceCfg)
-
 		log.Println("init Grpc Client done")
 		return nil
 	}
