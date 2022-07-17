@@ -56,16 +56,5 @@ func (s *Service) GetFileByUserId(req *storagepb.GetFileByUserIdRequest, stream 
 		}
 	}
 
-	// tmp, _ := os.Create("coba.xlsx")
-	// defer tmp.Close()
-	// fileSize, err := tmp.Write(resFile)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	return err
-	// }
-
-	// log.Println("fileSize", fileSize)
-	// tmp.Sync()
-
 	return nil
 }
