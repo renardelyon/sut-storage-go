@@ -65,7 +65,7 @@ func (s *Service) AddFile(stream storagepb.StorageService_AddFileServer) error {
 		Media(file).
 		Do()
 	if err != nil {
-		log.Fatalln("error when upload file: ", err)
+		res = s.handleTokenRegeneration(userId, file)
 	}
 
 	var fileInfo model.File

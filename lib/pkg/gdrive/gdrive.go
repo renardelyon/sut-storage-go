@@ -1,9 +1,11 @@
 package gdrive
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -52,7 +54,7 @@ func getClient(config *oauth2.Config, tokFile string) *http.Client {
 	tok, err := TokenFromFile(tokFile)
 	if err != nil {
 		tok = getTokenFromWeb(config)
-		saveToken(tokFile, tok)
+		SaveToken(tokFile, tok)
 	}
 	return config.Client(context.Background(), tok)
 }
@@ -88,7 +90,7 @@ func TokenFromFile(file string) (*oauth2.Token, error) {
 }
 
 // Saves a token to a file path.
-func saveToken(path string, token *oauth2.Token) {
+func SaveToken(path string, token *oauth2.Token) {
 	fmt.Printf("Saving credential file to: %s\n", path)
 	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
@@ -96,4 +98,37 @@ func saveToken(path string, token *oauth2.Token) {
 	}
 	defer f.Close()
 	json.NewEncoder(f).Encode(token)
+}
+
+func (d *DriveHandler) RegenerateToken() (*oauth2.Token, error) {
+	var client = &http.Client{}
+	payload := map[string]string{
+		"client_id":     d.Config.ClientId,
+		"client_secret": d.Config.ClientSecret,
+		"refresh_token": d.Config.GdriveRefreshToken,
+		"grant_type":    "refresh_token",
+	}
+	jsonData, _ := json.Marshal(payload)
+
+	req, err := http.NewRequest("POST", "https://accounts.google.com/o/oauth2/token?access_type=offline", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	io.Copy(os.Stdout, resp.Body)
+
+	tok := &oauth2.Token{}
+	err = json.NewDecoder(resp.Body).Decode(tok)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return tok, nil
 }
