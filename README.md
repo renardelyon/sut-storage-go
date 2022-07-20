@@ -5,7 +5,7 @@ Microservice for managing user uploaded files
 
 1. Create file env and name it `dev.env`. its content can be seen in code block below. 
 ```
-PORT=
+PORT=:50053
 DB_URL=
 SERVICE_ACCOUNT_PATH=
 TOKEN_PATH=
